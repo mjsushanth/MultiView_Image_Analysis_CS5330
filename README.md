@@ -1,8 +1,6 @@
-# CS5330_Proj_MV_Image_Analysis
-
 # Multi-View Image Analysis - Scene-Adaptive Feature Correspondence Pipeline
 
-A robust feature correspondence system for multi-view image analysis that employs scene-adaptive processing and integrated quality assessment. Built for the ETH3D dataset, this pipeline significantly improves matching quality and spatial coverage through pose-guided matching strategies and multi-layer occlusion detection.
+A feature correspondence system for multi-view image analysis that employs scene-adaptive processing and integrated quality assessment. Built for the ETH3D dataset, this pipeline significantly improves matching quality and spatial coverage through pose-guided matching strategies and multi-layer occlusion detection.
 
 # Author; Code IPYNB, Setup, Analysis files.
 [![Author](https://img.shields.io/badge/Author-Joel%20Markapudi-blue)](https://www.linkedin.com/in/joemjs/)
