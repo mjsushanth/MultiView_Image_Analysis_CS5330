@@ -1,3 +1,18 @@
+**ETH3D Multi-View Reconstruction – Implementation Overview**
+
+This pipeline ingests the ETH3D `multi_view_training_dslr_undistorted` dataset and, per scene, builds a dense, occlusion-aware correspondence graph between views. A processing config initializes the `PipelineOrchestrator`, which uses `SceneManager` to discover scenes and load calibrated intrinsics, poses, points, and optional occlusion assets into a `SceneData` shell. Images are streamed through a GPU-accelerated preprocessor (color-space normalization, LAB/CLAHE, denoising, resizing), then `FeatureExtractor` computes SIFT features and per-image statistics that quantify coverage and texture quality. With camera poses available, the pipeline derives a view-overlap matrix and selects a compact set of high-value image pairs; for each pair, `FeatureMatcher` performs FLANN+ratio-test matching, robustifies with RANSAC geometry, and then prunes matches using 2D occlusion masks and optional 3D visibility checks against splats/meshes.
+
+Surviving matches are fed into `CorrespondenceManager`, which merges pairwise correspondences into multi-view feature tracks, producing statistics over track length, visibility, and pose coverage. `VisualizationManager` generates targeted plots (feature density maps, overlap matrices, match quality panels, track histograms) when thresholds are violated or explicit debug flags are set. Finally, `ResultsManager` serializes all scene results—features, matches, tracks, scene metadata, and config snapshot—into HDF5/JSON plus plots under a timestamped results directory, giving a reproducible, analysis-ready artifact for PRCV experiments and downstream reconstruction or COLMAP integration.
+
+```text
+CONFIG → Orchestrator → SceneManager (ETH3D + occlusion)
+      → GPU Preprocess → FeatureExtractor + ImageStats
+      → ViewOverlap + PairSelection
+      → Pose- & Occlusion-Aware Matching (FLANN + RANSAC)
+      → CorrespondenceManager (multi-view tracks)
+      → VisualizationManager (debug plots)
+      → ResultsManager (HDF5 + JSON + figures)
+```
 
 ## Implementation Design Flows – ETH3D Multi-View Correspondence Pipeline
 
