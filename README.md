@@ -60,6 +60,7 @@ We also have several classes and methods integrating pycolmap and colmap code, h
   
 ## Project Structure
 
+Please refer to the [Implementation](IMPLEMENTATION_README.md) file, as its clearly broken into 5-6 sections and modular flows. Clean to understand. 
 ```
 
 ETH3D 3D Reconstruction Pipeline
